@@ -31,6 +31,8 @@ app.post('/short', async (req, res) => {
             console.log("url read successfully")
         }
     })
+
+    res.redirect('/');
 	
 })
 
