@@ -4,19 +4,33 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const ejs = require('ejs');
 const mongoose = require('mongoose');
+const ShortUrl = require('./models/url');
 
 const app = express();
 
 app.set('view engine', ejs);
 app.use(express.static("public"));
+app.use(express.urlencoded({ extended: false }))
 
 mongoose.connect("mongodb://localhost:27017/urlDB", {useNewUrlParser: true, useUnifiedTopology: true})
 
 app.get('/', (req,res) => {
-    res.send("Hello");
+    res.render('index', { myVariable: 'John Doe' })
 })
 
-app.post('/short', (req, res) => {
+app.post('/short', async (req, res) => {
+
+    const fullUrl = req.body.fullUrl
+	console.log('URL requested: ', fullUrl)
+
+    const newRecord = new ShortUrl({
+        full: fullUrl
+    })
+    await newRecord.save(function(err){
+        if(!err){
+            console.log("url read successfully")
+        }
+    })
 	
 })
 
