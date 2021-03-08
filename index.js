@@ -55,7 +55,14 @@ app.get('/:shortid', async (req, res) => {
 	res.redirect(rec.full)
 })
 
+mongoose.connection.on('open', async () => {
+	// Wait for mongodb connection before server starts
 
-app.listen(process.env.PORT || 3000, () => {
-	console.log('Server started on port');
+	// Just 2 URLs for testing purpose
+	await ShortURL.create({ full: 'http://google.com' })
+	await ShortURL.create({ full: 'http://codedamn.com' })
+
+	app.listen(process.env.PUBLIC_PORT, () => {
+		console.log('Server started')
+	})
 })
