@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const nanoid = require('nanoid')
+mongoose.set('debug', true);
 
 const shortUrlSchema = new mongoose.Schema({
     full: {
@@ -18,4 +19,4 @@ const shortUrlSchema = new mongoose.Schema({
       }
 })
 
-module.export = mongoose.model("ShortUrl", shortUrlSchema);
+module.exports = mongoose.model("ShortURL", shortUrlSchema);
