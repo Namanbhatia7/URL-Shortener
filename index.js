@@ -59,10 +59,10 @@ mongoose.connection.on('open', async () => {
 	// Wait for mongodb connection before server starts
 
 	// Just 2 URLs for testing purpose
-	await ShortURL.create({ full: 'http://google.com' })
+	await ShortURL.create({ full: 'http://yahoo.com' })
 	await ShortURL.create({ full: 'http://codedamn.com' })
 
-	app.listen(process.env.PUBLIC_PORT, () => {
+	app.listen(process.env.port || 3000, () => {
 		console.log('Server started')
 	})
 })
