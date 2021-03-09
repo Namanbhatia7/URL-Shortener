@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const nanoid = require('nanoid')
+var { nanoid } = require("nanoid");
 mongoose.set('debug', true);
 
 const shortUrlSchema = new mongoose.Schema({
