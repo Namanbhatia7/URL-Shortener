@@ -41,7 +41,7 @@ app.post('/short', async (req, res) => {
 app.get('/:shortid', async (req, res) => {
 	const shortid = req.params.shortid
 	const rec = await ShortURL.findOne({ short: shortid })
-	
+
 	if (!rec) return res.sendStatus(404)
 
 	rec.clicks++
@@ -51,12 +51,8 @@ app.get('/:shortid', async (req, res) => {
 })
 
 mongoose.connection.on('open', async () => {
-	// Wait for mongodb connection before server starts
-
-	// Just 2 URLs for testing purpose
 	await ShortURL.create({ full: 'http://yahoo.com' })
-	await ShortURL.create({ full: 'http://codedamn.com' })
-
+	await ShortURL.create({ full: 'http://google.com' })
 	app.listen(process.env.port || 3000, () => {
 		console.log('Server started')
 	})
