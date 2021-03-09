@@ -50,6 +50,15 @@ app.get('/:shortid', async (req, res) => {
 	res.redirect(rec.full)
 })
 
+app.post('/delete',(req,res) =>{
+	ShortURL.deleteMany(function(err){
+		if(!err){
+			console.log("URL deleted Successfully");
+		}
+	});
+	res.redirect("/");
+})
+
 mongoose.connection.on('open', async () => {
 	await ShortURL.create({ full: 'http://yahoo.com' })
 	await ShortURL.create({ full: 'http://google.com' })
