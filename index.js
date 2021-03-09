@@ -8,14 +8,14 @@ const ShortURL = require('./models/url');
 
 const app = express();
 
-app.set('view engine', ejs);
+app.set('view engine', 'ejs');
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }))
 
 mongoose.connect("mongodb://localhost:27017/urlDB", {useNewUrlParser: true, useUnifiedTopology: true})
 
-app.get('/',  (req,res) => {
-    const allData =  ShortURL.find()
+app.get('/', async (req,res) => {
+    const allData =  await ShortURL.find()
 	res.render('index', { shortUrls: allData })
 })
 
@@ -27,6 +27,7 @@ app.post('/short', async (req, res) => {
     const newRecord = new ShortURL({
         full: fullUrl
     })
+
     await newRecord.save(function(err){
         if(!err){
             console.log("url read successfully")
@@ -38,20 +39,14 @@ app.post('/short', async (req, res) => {
 })
 
 app.get('/:shortid', async (req, res) => {
-	// grab the :shortid param
 	const shortid = req.params.shortid
-
-	// perform the mongoose call to find the long URL
 	const rec = await ShortURL.findOne({ short: shortid })
-
-	// if null, set status to 404 (res.sendStatus(404))
+	
 	if (!rec) return res.sendStatus(404)
 
-	// if not null, increment the click count in database
 	rec.clicks++
 	await rec.save()
 
-	// redirect the user to original link
 	res.redirect(rec.full)
 })
 
